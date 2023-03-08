@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "aebfe73d-8c51-41ae-9dd9-43321d453ff8",
+		"name": "book-manager-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getAllBooks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "91087313-eb16-4c0e-bc98-335c643b39a1",
+						"exec": [
+							"pm.test(\"getAllBooks success with status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "9b99e8cd-7630-45a2-ac0b-b4a8cb2c2ec9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/book"
+			},
+			"response": []
+		},
+		{
+			"name": "getBookById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
+						"exec": [
+							"pm.test(\"GetBookById success with status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "dd4b5e07-19f7-4f12-866c-df7e3436e1ee",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/book/2"
+			},
+			"response": []
+		},
+		{
+			"name": "createBook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "64659e8b-d71e-461c-a67e-44d2b6c51dde",
+						"exec": [
+							"pm.test(\"Create book success with status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "1074eedf-ddb1-4b48-b83a-30a9c04045a5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"title\": \"Fabulous One\",\n    \"description\": \"This is the description for the Fabulous Five\",\n    \"author\": \"Person Five\",\n    \"genre\": \"Fantasy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/book"
+			},
+			"response": []
+		}
+	]
+}
