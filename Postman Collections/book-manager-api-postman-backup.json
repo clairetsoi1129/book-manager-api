@@ -97,6 +97,23 @@
 		},
 		{
 			"name": "createBookFailDueToSameId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e8a338bd-a212-4b66-92fa-70ff7d59fc5d",
+						"exec": [
+							"pm.test(\"Create Book failed with Status code is 500\", function () {",
+							"    pm.response.to.have.status(500);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"string_you_want_to_search\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"id": "fa9838fd-35cd-4c6c-922d-6e9a607187ca",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
