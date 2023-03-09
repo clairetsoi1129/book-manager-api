@@ -109,7 +109,7 @@
 							"pm.test(\"Check error return and message is 'Book with the same id already exists!'\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");",
-							"    pm.expect(jsonData.message).to.eql(\"Book with the same id alreay exists!\");",
+							"    pm.expect(jsonData.message).to.eql(\"Create book failed. Book with the same id alreay exists!\");",
 							"",
 							"});"
 						],
