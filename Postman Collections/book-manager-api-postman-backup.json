@@ -108,6 +108,11 @@
 							"});",
 							"pm.test(\"Error message should contains 'Book with the same id already exists!'\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"Book with the same id alreay exists!\");",
+							"});",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.value).to.eql(100);",
+							"",
 							"});"
 						],
 						"type": "text/javascript"
