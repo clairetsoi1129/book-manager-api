@@ -107,7 +107,7 @@
 							"    pm.response.to.have.status(500);",
 							"});",
 							"pm.test(\"Error message should contains\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"string_you_want_to_search\");",
+							"    pm.expect(pm.response.text()).to.include(\"Book with the same id alreay exists!\");",
 							"});"
 						],
 						"type": "text/javascript"
