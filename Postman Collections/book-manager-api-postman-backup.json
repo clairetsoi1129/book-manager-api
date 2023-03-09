@@ -84,7 +84,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"title\": \"Fabulous One\",\n    \"description\": \"This is the description for the Fabulous Five\",\n    \"author\": \"Person Five\",\n    \"genre\": \"Fantasy\"\n}",
+					"raw": "{\n    \"id\": 3,\n    \"title\": \"Fabulous Three\",\n    \"description\": \"This is the description for the Fabulous Three\",\n    \"author\": \"Person Three\",\n    \"genre\": \"Fantasy\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
