@@ -111,7 +111,7 @@
 							"});",
 							"pm.test(\"Your test name\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.value).to.eql(100);",
+							"    pm.expect(jsonData.message).to.eql(\"Book with the same id alreay exists!\");",
 							"",
 							"});"
 						],
