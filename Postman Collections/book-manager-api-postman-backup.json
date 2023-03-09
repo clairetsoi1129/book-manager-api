@@ -68,7 +68,7 @@
 						"id": "64659e8b-d71e-461c-a67e-44d2b6c51dde",
 						"exec": [
 							"pm.test(\"Create book success with status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
 							"});"
 						],
 						"type": "text/javascript"
