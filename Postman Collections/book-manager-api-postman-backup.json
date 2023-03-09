@@ -94,6 +94,28 @@
 				"url": "{{base_url}}/book"
 			},
 			"response": []
+		},
+		{
+			"name": "createBookFailDueToSameId",
+			"id": "fa9838fd-35cd-4c6c-922d-6e9a607187ca",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"title\": \"Fabulous One\",\n    \"description\": \"This is the description for the Fabulous One\",\n    \"author\": \"Person One\",\n    \"genre\": \"Fantasy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/book"
+			},
+			"response": []
 		}
 	]
 }
