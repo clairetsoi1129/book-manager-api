@@ -166,7 +166,7 @@
 			"response": []
 		},
 		{
-			"name": "updateBookFail_NotExist",
+			"name": "updateBookFail_IdNotExist",
 			"event": [
 				{
 					"listen": "test",
