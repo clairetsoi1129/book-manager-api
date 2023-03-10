@@ -33,7 +33,7 @@
 			"response": []
 		},
 		{
-			"name": "getBookByIdFail_NotExist",
+			"name": "getBookByIdFail_IdNotExist",
 			"event": [
 				{
 					"listen": "test",
