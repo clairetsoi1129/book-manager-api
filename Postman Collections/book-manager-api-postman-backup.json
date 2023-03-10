@@ -139,7 +139,7 @@
 							"pm.test(\"Create Book failed with Status code is 409\", function () {",
 							"    pm.response.to.have.status(409);",
 							"});",
-							"pm.test(\"Check error return and message is 'Create book failed. Book with the same id alreay exists!!'\", function () {",
+							"pm.test(\"Check error return and message is 'Create book failed. Book with the same id:[?] alreay exists!!'\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");",
 							"    pm.expect(jsonData.message).to.eql(\"Create book failed. Book with the same id alreay exists!\");",
