@@ -101,7 +101,7 @@
 					"script": {
 						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
 						"exec": [
-							"pm.test(\"GetBookById success with status code is 200\", function () {",
+							"pm.test(\"DeleteBookById success with status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
 						],
