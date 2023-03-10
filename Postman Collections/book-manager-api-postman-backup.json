@@ -60,6 +60,33 @@
 			"response": []
 		},
 		{
+			"name": "getBookById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
+						"exec": [
+							"pm.test(\"GetBookById success with status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "25b8a13e-fd4f-46a3-8c3c-680076ca0c27",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/book/5"
+			},
+			"response": []
+		},
+		{
 			"name": "createBookSuccess",
 			"event": [
 				{
