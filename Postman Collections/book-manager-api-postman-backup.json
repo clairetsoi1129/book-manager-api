@@ -42,6 +42,12 @@
 						"exec": [
 							"pm.test(\"Book not found with status code is 404\", function () {",
 							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Body matches subfix string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"does not exist!\");",
+							"});",
+							"pm.test(\"Body matches prefix string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Book with book id:\");",
 							"});"
 						],
 						"type": "text/javascript"
