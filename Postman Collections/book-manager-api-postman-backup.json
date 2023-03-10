@@ -166,6 +166,42 @@
 			"response": []
 		},
 		{
+			"name": "updateBookFail_NotExist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "64659e8b-d71e-461c-a67e-44d2b6c51dde",
+						"exec": [
+							"pm.test(\"Update book success with Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "1511e9cf-2c0b-4da4-a4b0-1819662fbb00",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"title\": \"Fabulous Two blahblahblah\",\n    \"description\": \"This is the description for the Fabulous Two blahblahblah\",\n    \"author\": \"Person Two blahblahblah\",\n    \"genre\": \"Fantasy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/book/2"
+			},
+			"response": []
+		},
+		{
 			"name": "createBookFail_DuplicateId",
 			"event": [
 				{
