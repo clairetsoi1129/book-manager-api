@@ -147,6 +147,26 @@ public class BookManagerControllerTests {
         verify(mockBookManagerServiceImpl, times(1)).updateBookById(book.getId(), book);
     }
 
+    @Test
+    public void testPutMappingUpdateABook_ResourceNotFoundException() throws Exception {
+
+        Book book = new Book(4L, "Fabulous Four", "This is the description for the Fabulous Four", "Person Four", Genre.Fantasy);
+
+        doThrow(new ResourceNotFoundException("Book with book id: [4] does not exist!"))
+                .when(mockBookManagerServiceImpl).updateBookById(book.getId(), book);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.put("/api/v1/book/" + book.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(book)))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
+                .andExpect(result ->
+                        assertEquals("Book with book id: [4] does not exist!", result.getResolvedException().getMessage()));
+
+        verify(mockBookManagerServiceImpl, times(1)).updateBookById(book.getId(), book);
+    }
+
     //User Story 5 - Delete Book By Id Solution
     @Test
     public void testDeleteMappingDeleteABook() throws Exception {

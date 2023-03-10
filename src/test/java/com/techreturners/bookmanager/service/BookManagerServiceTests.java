@@ -114,6 +114,23 @@ public class BookManagerServiceTests {
     }
 
     @Test
+    public void testUpdateBookByIdFailed_WithNotExistId() {
+
+        Long bookId = 5L;
+        var book = new Book(5L, "Book Five", "This is the description for Book Five", "Person Five", Genre.Fantasy);
+
+        when(mockBookManagerRepository.findById(bookId)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(ResourceNotFoundException.class,
+                () -> bookManagerServiceImpl.updateBookById(bookId, book));
+
+        String actualMessage = exception.getMessage();
+        assertEquals(actualMessage, "Book with book id: [5] does not exist!");
+
+        verify(mockBookManagerRepository, times(0)).save(book);
+    }
+
+    @Test
     public void testDeleteBookById() {
 
         Long bookId = 1L;
@@ -135,6 +152,9 @@ public class BookManagerServiceTests {
 
         Exception exception = assertThrows(ResourceNotFoundException.class,
                 () -> bookManagerServiceImpl.deleteBookById(bookId));
+
+        String actualMessage = exception.getMessage();
+        assertEquals(actualMessage, "Book with book id: [5] does not exist!");
 
         verify(mockBookManagerRepository, times(1)).existsById(bookId);
         verify(mockBookManagerRepository, times(0)).deleteById(bookId);
