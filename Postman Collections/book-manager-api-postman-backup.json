@@ -198,7 +198,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "{{base_url}}/book/1"
+				"url": "{{base_url}}/book/2"
 			},
 			"response": []
 		},
