@@ -136,8 +136,8 @@
 					"script": {
 						"id": "64659e8b-d71e-461c-a67e-44d2b6c51dde",
 						"exec": [
-							"pm.test(\"Create book success with status code is 201\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"pm.test(\"Update book success with Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -149,11 +149,11 @@
 				"disableBodyPruning": true
 			},
 			"request": {
-				"method": "POST",
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 3,\n    \"title\": \"Fabulous Three\",\n    \"description\": \"This is the description for the Fabulous Three\",\n    \"author\": \"Person Three\",\n    \"genre\": \"Fantasy\"\n}",
+					"raw": "{\n    \"id\": 2,\n    \"title\": \"Fabulous Two blahblahblah\",\n    \"description\": \"This is the description for the Fabulous Two blahblahblah\",\n    \"author\": \"Person Two blahblahblah\",\n    \"genre\": \"Fantasy\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
