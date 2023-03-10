@@ -129,6 +129,42 @@
 			"response": []
 		},
 		{
+			"name": "updateBookSuccess",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "64659e8b-d71e-461c-a67e-44d2b6c51dde",
+						"exec": [
+							"pm.test(\"Create book success with status code is 201\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "f541297f-2831-49ae-9c10-0dae529bfd71",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 3,\n    \"title\": \"Fabulous Three\",\n    \"description\": \"This is the description for the Fabulous Three\",\n    \"author\": \"Person Three\",\n    \"genre\": \"Fantasy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/book"
+			},
+			"response": []
+		},
+		{
 			"name": "createBookFail_DuplicateId",
 			"event": [
 				{
