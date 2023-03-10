@@ -104,7 +104,7 @@
 							"pm.test(\"DeleteBookById success with status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.message).to.eql(\"NO_BOOK_FOUND\");",
+							"    pm.expect(jsonData.message).to.eql(\"Book deleted successfully!.\");",
 							"});"
 						],
 						"type": "text/javascript"
