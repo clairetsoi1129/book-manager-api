@@ -48,7 +48,6 @@
 							"    pm.expect(jsonData.error).to.eql(\"Not Found\");",
 							"    pm.expect(jsonData.message).to.include(\"Book with book id:\");",
 							"    pm.expect(jsonData.message).to.include(\"does not exist!\");",
-							"",
 							"});"
 						],
 						"type": "text/javascript"
