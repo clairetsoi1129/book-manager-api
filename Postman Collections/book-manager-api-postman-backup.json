@@ -96,7 +96,7 @@
 			"response": []
 		},
 		{
-			"name": "createBookFailDueToSameId",
+			"name": "createBookFail_DuplicateId",
 			"event": [
 				{
 					"listen": "test",
