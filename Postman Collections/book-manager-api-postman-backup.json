@@ -82,7 +82,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{base_url}}/book/5"
+				"url": "{{base_url}}/book/1"
 			},
 			"response": []
 		},
