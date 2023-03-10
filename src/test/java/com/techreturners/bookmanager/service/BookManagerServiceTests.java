@@ -72,7 +72,7 @@ public class BookManagerServiceTests {
                 () -> bookManagerServiceImpl.insertBook(book));
 
         String actualMessage = exception.getMessage();
-        assertEquals(actualMessage,"Create book failed. Book with the same id: [2] alreay exists!");
+        assertEquals(actualMessage,"Create book failed. Book with the same id: [2] already exists!");
 
         verify(mockBookManagerRepository, times(0)).save(book);
     }

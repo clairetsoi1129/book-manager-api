@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class BookManagerServiceImpl implements BookManagerService {
-    private final String ERROR_DUPLICATE_BOOK_ID = "Create book failed. Book with the same id: [%s] alreay exists!";
+    private final String ERROR_DUPLICATE_BOOK_ID = "Create book failed. Book with the same id: [%s] already exists!";
     private final String ERROR_BOOK_NOT_EXISTS = "Book with book id: [%s] does not exist!";
 
     @Autowired
