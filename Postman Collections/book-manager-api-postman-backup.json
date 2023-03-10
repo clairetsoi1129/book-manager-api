@@ -94,69 +94,6 @@
 			"response": []
 		},
 		{
-			"name": "deleteBookById",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
-						"exec": [
-							"pm.test(\"DeleteBookById success with status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.message).to.eql(\"NO_BOOK_FOUND\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"id": "701b1398-ce20-428d-909b-d5311bf28c48",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": "{{base_url}}/book/4"
-			},
-			"response": []
-		},
-		{
-			"name": "deleteBookById_IdNotExist",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
-						"exec": [
-							"pm.test(\"Book not found with status code is 404\", function () {",
-							"    pm.response.to.have.status(404);",
-							"});",
-							"pm.test(\"Check error return and message is 'Book with book id:[?] does not exist!'\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.code).to.eql(\"NO_BOOK_FOUND\");",
-							"    pm.expect(jsonData.error).to.eql(\"DATA NOT FOUND FOR GIVEN ID\");",
-							"    pm.expect(jsonData.message).to.include(\"Book with book id:\");",
-							"    pm.expect(jsonData.message).to.include(\"does not exist!\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"id": "bd7740ff-1e7d-438e-9113-98ade3e529e7",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": "{{base_url}}/book/3"
-			},
-			"response": []
-		},
-		{
 			"name": "createBookSuccess",
 			"event": [
 				{
@@ -189,6 +126,113 @@
 					}
 				},
 				"url": "{{base_url}}/book"
+			},
+			"response": []
+		},
+		{
+			"name": "createBookFail_DuplicateId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e8a338bd-a212-4b66-92fa-70ff7d59fc5d",
+						"exec": [
+							"pm.test(\"Create Book failed with Status code is 409\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							"pm.test(\"Check error return and message is 'Create book failed. Book with the same id:[?] already exists!!'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.code).to.eql(\"BOOK_ALREADY_EXIST\");",
+							"    pm.expect(jsonData.error).to.eql(\"DATA ALREADY EXIST FOR GIVEN ID\");",
+							"    pm.expect(jsonData.message).to.include(\"Create book failed. Book with the same id:\");",
+							"    pm.expect(jsonData.message).to.include(\"already exists!\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "fa9838fd-35cd-4c6c-922d-6e9a607187ca",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"title\": \"Fabulous One\",\n    \"description\": \"This is the description for the Fabulous One\",\n    \"author\": \"Person One\",\n    \"genre\": \"Fantasy\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/book"
+			},
+			"response": []
+		},
+		{
+			"name": "deleteBookByIdSuccess",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
+						"exec": [
+							"pm.test(\"DeleteBookById success with status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Book deleted successfully!.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "701b1398-ce20-428d-909b-d5311bf28c48",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/book/1"
+			},
+			"response": []
+		},
+		{
+			"name": "deleteBookByIdFail_IdNotExist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
+						"exec": [
+							"pm.test(\"Book not found with status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Check error return and message is 'Book with book id:[?] does not exist!'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.code).to.eql(\"NO_BOOK_FOUND\");",
+							"    pm.expect(jsonData.error).to.eql(\"DATA NOT FOUND FOR GIVEN ID\");",
+							"    pm.expect(jsonData.message).to.include(\"Book with book id:\");",
+							"    pm.expect(jsonData.message).to.include(\"does not exist!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "bd7740ff-1e7d-438e-9113-98ade3e529e7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/book/4"
 			},
 			"response": []
 		},
@@ -268,50 +312,6 @@
 					}
 				},
 				"url": "{{base_url}}/book/5"
-			},
-			"response": []
-		},
-		{
-			"name": "createBookFail_DuplicateId",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "e8a338bd-a212-4b66-92fa-70ff7d59fc5d",
-						"exec": [
-							"pm.test(\"Create Book failed with Status code is 409\", function () {",
-							"    pm.response.to.have.status(409);",
-							"});",
-							"pm.test(\"Check error return and message is 'Create book failed. Book with the same id:[?] already exists!!'\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.code).to.eql(\"BOOK_ALREADY_EXIST\");",
-							"    pm.expect(jsonData.error).to.eql(\"DATA ALREADY EXIST FOR GIVEN ID\");",
-							"    pm.expect(jsonData.message).to.include(\"Create book failed. Book with the same id:\");",
-							"    pm.expect(jsonData.message).to.include(\"already exists!\");",
-							"",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"id": "fa9838fd-35cd-4c6c-922d-6e9a607187ca",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"title\": \"Fabulous One\",\n    \"description\": \"This is the description for the Fabulous One\",\n    \"author\": \"Person One\",\n    \"genre\": \"Fantasy\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "{{base_url}}/book"
 			},
 			"response": []
 		}
