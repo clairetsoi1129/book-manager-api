@@ -94,7 +94,7 @@
 			"response": []
 		},
 		{
-			"name": "deleteBookById",
+			"name": "getBookById Copy",
 			"event": [
 				{
 					"listen": "test",
