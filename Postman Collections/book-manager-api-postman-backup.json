@@ -121,6 +121,40 @@
 			"response": []
 		},
 		{
+			"name": "deleteBookById Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
+						"exec": [
+							"pm.test(\"Book not found with status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Check error return and message is 'Book with book id:[?] does not exist!'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.code).to.eql(\"NO_BOOK_FOUND\");",
+							"    pm.expect(jsonData.error).to.eql(\"DATA NOT FOUND FOR GIVEN ID\");",
+							"    pm.expect(jsonData.message).to.include(\"Book with book id:\");",
+							"    pm.expect(jsonData.message).to.include(\"does not exist!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "bd7740ff-1e7d-438e-9113-98ade3e529e7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/book/3"
+			},
+			"response": []
+		},
+		{
 			"name": "createBookSuccess",
 			"event": [
 				{
