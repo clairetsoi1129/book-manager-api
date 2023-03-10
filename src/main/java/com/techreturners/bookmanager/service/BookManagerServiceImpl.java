@@ -28,8 +28,7 @@ public class BookManagerServiceImpl implements BookManagerService {
 
     @Override
     public Book insertBook(Book book) {
-        boolean exist = bookManagerRepository.existsById(book.getId());
-        if (exist)
+        if (bookManagerRepository.existsById(book.getId()))
             throw new DuplicateResourceException(ERROR_DUPLICATE_BOOK_ID.formatted(book.getId()));
         return bookManagerRepository.save(book);
     }
@@ -60,8 +59,7 @@ public class BookManagerServiceImpl implements BookManagerService {
 
     @Override
     public void deleteBookById(Long id) {
-        boolean exist = bookManagerRepository.existsById(id);
-        if (!exist)
+        if (!bookManagerRepository.existsById(id))
             throw new ResourceNotFoundException(ERROR_BOOK_NOT_EXISTS.formatted(id));
         bookManagerRepository.deleteById(id);
     }
