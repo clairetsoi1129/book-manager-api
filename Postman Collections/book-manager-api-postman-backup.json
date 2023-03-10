@@ -161,7 +161,7 @@
 						}
 					}
 				},
-				"url": "{{base_url}}/book"
+				"url": "{{base_url}}/book/2"
 			},
 			"response": []
 		},
