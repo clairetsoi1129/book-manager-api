@@ -36,9 +36,57 @@ Explore the code and make notes on the following features and how it is being im
 
 The features are:
 - Get All Books
+* When user makes a GET requests /api/v1/book, the bookManagerController.getAllBooks is invoked. 
+* Inside this method, it calls the bookManagerService.getAllBooks method. 
+* (bookManagerService is auto instantiated by Spring boot with dependency injection. )
+* Inside this method, it calls the bookManagerRepository.findAll()
+* (bookManagerRepository is auto instantiated by Spring boot with dependency injection. )
+* bookManagerRepository then call the model Book to query the database table Book. 
+* Database then return the book info to the bookManagerRepository.
+* bookManagerRepository then return the book info back to bookManagerService.
+* bookManagerService then return the book info to bookManagerController. 
+* bookManagerController return the response to the user.
+
 - Get a Book by ID
+* When user makes a GET requests /api/v1/book/1, the bookManagerController.getBookById is invoked.
+* Inside this method, it calls the bookManagerService.getBookById method.
+* (bookManagerService is auto instantiated by Spring boot with dependency injection. )
+* Inside this method, it calls the bookManagerRepository.findById()
+* (bookManagerRepository is auto instantiated by Spring boot with dependency injection. )
+* bookManagerRepository then call the model Book to query the database table Book. 
+* Database then return the book info to the bookManagerRepository.
+* bookManagerRepository then return the book info back to bookManagerService.
+* bookManagerService then return the book info to bookManagerController.
+* bookManagerController return the response to the user.
+
 - Add a Book
+* When user makes a POST requests /api/v1/book with request body book, the bookManagerController.addBook is invoked.
+* Inside this method, it calls the bookManagerService.insertBook method.
+* (bookManagerService is auto instantiated by Spring boot with dependency injection. )
+* Inside this method, it calls the bookManagerRepository.save()
+* (bookManagerRepository is auto instantiated by Spring boot with dependency injection. )
+* bookManagerRepository then call the model Book to save the database table Book. 
+* Database then return the book info which is saved to the bookManagerRepository.
+* bookManagerRepository then return the book info back to bookManagerService.
+* bookManagerService then return the book info to bookManagerController.
+* bookManagerController return the response to the user.
+
 - Update a Book
+* When user makes a PUT requests /api/v1/book with request body book, the bookManagerController.updateBookById is invoked.
+* Inside this method, it calls the bookManagerService.updateBookById method.
+* (bookManagerService is auto instantiated by Spring boot with dependency injection. )
+* Inside this method, it calls the bookManagerRepository.findById()
+* (bookManagerRepository is auto instantiated by Spring boot with dependency injection. )
+* bookManagerRepository then call the model Book to query the database table Book. 
+* Database then return the book info if found to the bookManagerRepository.
+* bookManagerRepository then return the book info back to bookManagerService.
+* bookManagerService then base on the result to set the book attributes based on user input
+* bookManagerService then call bookManagerRepository.save()
+* bookManagerRepository then call the model Book to save the database table Book. 
+* Database then return the book info which is saved to the bookManagerRepository.
+* bookManagerRepository then return the book info back to bookManagerService.
+* bookManagerService then return the book info to bookManagerController.
+* bookManagerController return the response to the user.
 
 📘 Task 1: Implement the following User Story with tests.
 
@@ -53,4 +101,10 @@ to add in exception handling to the project?
 
 - Clue 2: What if someone wants to find a book by an ID that doesn't yet exist? 
   How can we improve the API by handling errors gracefully and show a helpful message to the client?
+
+
+
+## Notes:
+Backup postman collection to github procedure:
+https://learning.postman.com/docs/integrations/available-integrations/github/
   
