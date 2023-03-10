@@ -29,7 +29,7 @@ public class BookManagerRepositoryTests {
     @Test
     public void testCreatesAndFindBookByIdReturnsBook() {
 
-        Book book = new Book(2L, "Book Two", "This is the description for Book Two", "Person Two", Genre.Fantasy);
+        Book book = new Book(1L, "Book Two", "This is the description for Book Two", "Person Two", Genre.Fantasy);
         bookManagerRepository.save(book);
 
         var bookById = bookManagerRepository.findById(book.getId());
