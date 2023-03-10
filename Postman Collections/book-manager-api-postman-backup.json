@@ -232,7 +232,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "{{base_url}}/book/3"
+				"url": "{{base_url}}/book/4"
 			},
 			"response": []
 		},
