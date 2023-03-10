@@ -17,7 +17,7 @@ public class ExceptionHandlerController {
     public ResponseEntity<ErrorType> handleDuplicateResourceException(
             RuntimeException ex) {
         return new ResponseEntity<>(
-                new ErrorType(ex.getMessage(), "BOOK_ALREADY_EXIST", "DATA NOT FOUND FOR GIVEN ID", "Book"),
+                new ErrorType(ex.getMessage(), "BOOK_ALREADY_EXIST", "DATA ALREADY EXIST FOR GIVEN ID", "Book"),
                 HttpStatus.CONFLICT);
     }
 
