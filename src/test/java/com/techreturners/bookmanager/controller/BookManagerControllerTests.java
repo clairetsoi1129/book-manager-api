@@ -181,7 +181,8 @@ public class BookManagerControllerTests {
                         MockMvcRequestBuilders.delete("/api/v1/book/" + book.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(mapper.writeValueAsString(book)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Book deleted successfully!."));
 
         verify(mockBookManagerServiceImpl, times(1)).deleteBookById(book.getId());
     }
