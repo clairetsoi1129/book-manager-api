@@ -1,5 +1,7 @@
 package com.techreturners.bookmanager.service;
 
+import com.techreturners.bookmanager.exception.DuplicateResourceException;
+import com.techreturners.bookmanager.exception.ResourceNotFoundException;
 import com.techreturners.bookmanager.model.Book;
 import com.techreturners.bookmanager.model.Genre;
 
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @DataJpaTest
@@ -54,6 +58,20 @@ public class BookManagerServiceTests {
     }
 
     @Test
+    public void testAddABookFailed_WithExistingId() {
+
+        var book = new Book(2L, "Book Two", "This is the description for Book Two", "Person Two", Genre.Fantasy);
+
+        when(mockBookManagerRepository.existsById(book.getId())).thenReturn(true);
+
+        Exception exception = assertThrows(DuplicateResourceException.class,
+                () -> bookManagerServiceImpl.insertBook(book));
+
+        String actualMessage = exception.getMessage();
+        assertEquals(actualMessage,"Create book failed. Book with the same id: [2] alreay exists!");
+    }
+
+    @Test
     public void testGetBookById() {
 
         Long bookId = 5L;
@@ -64,6 +82,20 @@ public class BookManagerServiceTests {
         Book actualResult = bookManagerServiceImpl.getBookById(bookId);
 
         assertThat(actualResult).isEqualTo(book);
+    }
+
+    @Test
+    public void testGetBookByIdFailed_WithNotExistId() {
+
+        Long bookId = 5L;
+
+        when(mockBookManagerRepository.findById(bookId)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(ResourceNotFoundException.class,
+                () -> bookManagerServiceImpl.getBookById(bookId));
+
+        String actualMessage = exception.getMessage();
+        assertEquals(actualMessage, "Book with book id: [5] does not exist!");
     }
 
     //User Story 4 - Update Book By Id Solution
@@ -84,15 +116,28 @@ public class BookManagerServiceTests {
     @Test
     public void testDeleteBookById() {
 
-        Long bookId = 5L;
-        var book = new Book(bookId, "Book Five", "This is the description for Book Five", "Person Five", Genre.Fantasy);
+        Long bookId = 1L;
 
-        when(mockBookManagerRepository.findById(bookId)).thenReturn(Optional.of(book));
-        when(mockBookManagerRepository.save(book)).thenReturn(book);
+        when(mockBookManagerRepository.existsById(bookId)).thenReturn(true);
 
         bookManagerServiceImpl.deleteBookById(bookId);
 
+        verify(mockBookManagerRepository, times(1)).existsById(bookId);
         verify(mockBookManagerRepository, times(1)).deleteById(bookId);
+    }
+
+    @Test
+    public void testDeleteBookByIdFailed_WithNotExistId() {
+
+        Long bookId = 5L;
+
+        when(mockBookManagerRepository.existsById(bookId)).thenReturn(false);
+
+        Exception exception = assertThrows(ResourceNotFoundException.class,
+                () -> bookManagerServiceImpl.deleteBookById(bookId));
+
+        verify(mockBookManagerRepository, times(1)).existsById(bookId);
+        verify(mockBookManagerRepository, times(0)).deleteById(bookId);
     }
 
 }
