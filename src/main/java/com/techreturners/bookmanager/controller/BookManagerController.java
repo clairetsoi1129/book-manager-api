@@ -31,8 +31,11 @@ public class BookManagerController {
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book newBook = bookManagerService.insertBook(book);
+
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("book", "/api/v1/book/" + newBook.getId().toString());
+        if (newBook != null) {
+            httpHeaders.add("book", "/api/v1/book/" + newBook.getId().toString());
+        }
         return new ResponseEntity<>(newBook, httpHeaders, HttpStatus.CREATED);
     }
 

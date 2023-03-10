@@ -1,6 +1,9 @@
 package com.techreturners.bookmanager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.jdi.InternalException;
+import com.techreturners.bookmanager.exception.DuplicateResourceException;
+import com.techreturners.bookmanager.exception.ResourceNotFoundException;
 import com.techreturners.bookmanager.model.Book;
 import com.techreturners.bookmanager.model.Genre;
 import com.techreturners.bookmanager.service.BookManagerServiceImpl;
@@ -8,9 +11,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.slf4j.helpers.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,8 +24,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -39,7 +48,8 @@ public class BookManagerControllerTests {
 
     @BeforeEach
     public void setup(){
-        mockMvcController = MockMvcBuilders.standaloneSetup(bookManagerController).build();
+        mockMvcController = MockMvcBuilders.standaloneSetup(bookManagerController)
+                .setControllerAdvice(new ExceptionHandlerController()).build();
         mapper = new ObjectMapper();
     }
 
@@ -79,6 +89,21 @@ public class BookManagerControllerTests {
     }
 
     @Test
+    public void testGetMappingGetBookById_ResourceNotFoundException() throws Exception {
+        Long bookId = 5L;
+
+        when(mockBookManagerServiceImpl.getBookById(bookId)).thenThrow(
+                new ResourceNotFoundException("Book with book id: [5] does not exist!"));
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/book/"+ bookId))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
+                .andExpect(result ->
+                        assertTrue(result.getResolvedException().getMessage().equals("Book with book id: [5] does not exist!")));
+    }
+
+    @Test
     public void testPostMappingAddABook() throws Exception {
 
         Book book = new Book(4L, "Book Four", "This is the description for Book Four", "Person Four", Genre.Fantasy);
@@ -90,6 +115,25 @@ public class BookManagerControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(book)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        verify(mockBookManagerServiceImpl, times(1)).insertBook(book);
+    }
+
+    @Test
+    public void testPostMappingAddABook_DuplicateResourceException() throws Exception {
+        Book book = new Book(4L, "Book Four", "This is the description for Book Four", "Person Four", Genre.Fantasy);
+
+        when(mockBookManagerServiceImpl.insertBook(book)).thenThrow(
+                new DuplicateResourceException("Book with book id: [4] does not exist!"));
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.post("/api/v1/book/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(book)))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof DuplicateResourceException))
+                .andExpect(result ->
+                        assertTrue(result.getResolvedException().getMessage().equals("Book with book id: [4] does not exist!")));
 
         verify(mockBookManagerServiceImpl, times(1)).insertBook(book);
     }
@@ -122,6 +166,21 @@ public class BookManagerControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         verify(mockBookManagerServiceImpl, times(1)).deleteBookById(book.getId());
+    }
+
+    @Test
+    public void testDeleteMappingDeleteABook_ResourceNotFoundException() throws Exception {
+        Long bookId = 5L;
+
+        doThrow(new ResourceNotFoundException("Book with book id: [5] does not exist!"))
+                .when(mockBookManagerServiceImpl).deleteBookById(bookId);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.delete("/api/v1/book/"+ bookId))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
+                .andExpect(result ->
+                        assertTrue(result.getResolvedException().getMessage().equals("Book with book id: [5] does not exist!")));
     }
 
 }
