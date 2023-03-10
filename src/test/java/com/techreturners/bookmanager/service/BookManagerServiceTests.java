@@ -43,6 +43,8 @@ public class BookManagerServiceTests {
 
         assertThat(actualResult).hasSize(3);
         assertThat(actualResult).isEqualTo(books);
+
+        verify(mockBookManagerRepository, times(1)).findAll();
     }
 
     @Test
@@ -55,6 +57,8 @@ public class BookManagerServiceTests {
         Book actualResult = bookManagerServiceImpl.insertBook(book);
 
         assertThat(actualResult).isEqualTo(book);
+
+        verify(mockBookManagerRepository, times(1)).save(book);
     }
 
     @Test
@@ -69,6 +73,8 @@ public class BookManagerServiceTests {
 
         String actualMessage = exception.getMessage();
         assertEquals(actualMessage,"Create book failed. Book with the same id: [2] alreay exists!");
+
+        verify(mockBookManagerRepository, times(0)).save(book);
     }
 
     @Test
@@ -82,6 +88,8 @@ public class BookManagerServiceTests {
         Book actualResult = bookManagerServiceImpl.getBookById(bookId);
 
         assertThat(actualResult).isEqualTo(book);
+
+        verify(mockBookManagerRepository, times(1)).findById(bookId);
     }
 
     @Test
@@ -96,6 +104,8 @@ public class BookManagerServiceTests {
 
         String actualMessage = exception.getMessage();
         assertEquals(actualMessage, "Book with book id: [5] does not exist!");
+
+        verify(mockBookManagerRepository, times(1)).findById(bookId);
     }
 
     //User Story 4 - Update Book By Id Solution

@@ -80,6 +80,8 @@ public class BookManagerControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Book Four"));
+
+        verify(mockBookManagerServiceImpl, times(1)).getBookById(book.getId());
     }
 
     @Test
@@ -95,6 +97,8 @@ public class BookManagerControllerTests {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
                 .andExpect(result ->
                         assertEquals("Book with book id: [5] does not exist!", result.getResolvedException().getMessage()));
+
+        verify(mockBookManagerServiceImpl, times(1)).getBookById(bookId);
     }
 
     @Test
@@ -195,6 +199,8 @@ public class BookManagerControllerTests {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
                 .andExpect(result ->
                         assertEquals("Book with book id: [5] does not exist!", result.getResolvedException().getMessage()));
+
+        verify(mockBookManagerServiceImpl, times(1)).deleteBookById(bookId);
     }
 
 }
