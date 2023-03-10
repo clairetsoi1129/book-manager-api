@@ -103,6 +103,8 @@
 						"exec": [
 							"pm.test(\"DeleteBookById success with status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"NO_BOOK_FOUND\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -116,7 +118,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "{{base_url}}/book/3"
+				"url": "{{base_url}}/book/4"
 			},
 			"response": []
 		},
