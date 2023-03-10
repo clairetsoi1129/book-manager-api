@@ -10,14 +10,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.techreturners.bookmanager.exception.ErrorType;
 
-
 @RestControllerAdvice(annotations = RestController.class)
 public class ExceptionHandlerController {
 
     @ExceptionHandler({DuplicateResourceException.class})
     public ResponseEntity<ErrorType> handleDuplicateResourceException(
             RuntimeException ex) {
-        return new ResponseEntity<ErrorType>(
+        return new ResponseEntity<>(
                 new ErrorType(ex.getMessage(), "BOOK_ALREADY_EXIST", "DATA NOT FOUND FOR GIVEN ID", "Book"),
                 HttpStatus.CONFLICT);
     }
@@ -25,7 +24,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<ErrorType> handleResourceNotFoundException(
             RuntimeException ex) {
-        return new ResponseEntity<ErrorType>(
+        return new ResponseEntity<>(
                 new ErrorType(ex.getMessage(), "NO_BOOK_FOUND", "DATA NOT FOUND FOR GIVEN ID", "Book"),
                 HttpStatus.NOT_FOUND);
     }

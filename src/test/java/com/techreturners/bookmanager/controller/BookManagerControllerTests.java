@@ -1,7 +1,6 @@
 package com.techreturners.bookmanager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jdi.InternalException;
 import com.techreturners.bookmanager.exception.DuplicateResourceException;
 import com.techreturners.bookmanager.exception.ResourceNotFoundException;
 import com.techreturners.bookmanager.model.Book;
@@ -11,11 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.slf4j.helpers.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -24,12 +21,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -47,7 +41,7 @@ public class BookManagerControllerTests {
     private ObjectMapper mapper;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         mockMvcController = MockMvcBuilders.standaloneSetup(bookManagerController)
                 .setControllerAdvice(new ExceptionHandlerController()).build();
         mapper = new ObjectMapper();
@@ -64,14 +58,14 @@ public class BookManagerControllerTests {
         when(mockBookManagerServiceImpl.getAllBooks()).thenReturn(books);
 
         this.mockMvcController.perform(
-            MockMvcRequestBuilders.get("/api/v1/book/"))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Book One"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].title").value("Book Two"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(3))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[2].title").value("Book Three"));
+                        MockMvcRequestBuilders.get("/api/v1/book/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Book One"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].title").value("Book Two"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].title").value("Book Three"));
     }
 
     @Test
@@ -82,10 +76,10 @@ public class BookManagerControllerTests {
         when(mockBookManagerServiceImpl.getBookById(book.getId())).thenReturn(book);
 
         this.mockMvcController.perform(
-            MockMvcRequestBuilders.get("/api/v1/book/" + book.getId()))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Book Four"));
+                        MockMvcRequestBuilders.get("/api/v1/book/" + book.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Book Four"));
     }
 
     @Test
@@ -96,11 +90,11 @@ public class BookManagerControllerTests {
                 new ResourceNotFoundException("Book with book id: [5] does not exist!"));
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/book/"+ bookId))
+                        MockMvcRequestBuilders.get("/api/v1/book/" + bookId))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
                 .andExpect(result ->
-                        assertTrue(result.getResolvedException().getMessage().equals("Book with book id: [5] does not exist!")));
+                        assertEquals("Book with book id: [5] does not exist!", result.getResolvedException().getMessage()));
     }
 
     @Test
@@ -111,9 +105,9 @@ public class BookManagerControllerTests {
         when(mockBookManagerServiceImpl.insertBook(book)).thenReturn(book);
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.post("/api/v1/book/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(book)))
+                        MockMvcRequestBuilders.post("/api/v1/book/")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(book)))
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
         verify(mockBookManagerServiceImpl, times(1)).insertBook(book);
@@ -128,12 +122,12 @@ public class BookManagerControllerTests {
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.post("/api/v1/book/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(book)))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(book)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof DuplicateResourceException))
                 .andExpect(result ->
-                        assertTrue(result.getResolvedException().getMessage().equals("Book with book id: [4] does not exist!")));
+                        assertEquals("Book with book id: [4] does not exist!", result.getResolvedException().getMessage()));
 
         verify(mockBookManagerServiceImpl, times(1)).insertBook(book);
     }
@@ -145,9 +139,9 @@ public class BookManagerControllerTests {
         Book book = new Book(4L, "Fabulous Four", "This is the description for the Fabulous Four", "Person Four", Genre.Fantasy);
 
         this.mockMvcController.perform(
-                MockMvcRequestBuilders.put("/api/v1/book/" + book.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(book)))
+                        MockMvcRequestBuilders.put("/api/v1/book/" + book.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(book)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         verify(mockBookManagerServiceImpl, times(1)).updateBookById(book.getId(), book);
@@ -176,11 +170,11 @@ public class BookManagerControllerTests {
                 .when(mockBookManagerServiceImpl).deleteBookById(bookId);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.delete("/api/v1/book/"+ bookId))
+                        MockMvcRequestBuilders.delete("/api/v1/book/" + bookId))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException))
                 .andExpect(result ->
-                        assertTrue(result.getResolvedException().getMessage().equals("Book with book id: [5] does not exist!")));
+                        assertEquals("Book with book id: [5] does not exist!", result.getResolvedException().getMessage()));
     }
 
 }

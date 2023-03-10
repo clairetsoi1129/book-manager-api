@@ -2,10 +2,10 @@ package com.techreturners.bookmanager.exception;
 
 public class ErrorType {
 
-    private String message;
-    private String code;
-    private String error;
-    private String classType;
+    private final String message;
+    private final String code;
+    private final String error;
+    private final String classType;
 
     public ErrorType(String message, String code, String error, String classType) {
         this.message = message;
@@ -13,7 +13,4 @@ public class ErrorType {
         this.error = error;
         this.classType = classType;
     }
-
-
 }
-
