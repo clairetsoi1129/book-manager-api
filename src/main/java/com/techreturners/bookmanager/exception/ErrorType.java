@@ -13,4 +13,20 @@ public class ErrorType {
         this.error = error;
         this.classType = classType;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public String getClassType() {
+        return classType;
+    }
 }
