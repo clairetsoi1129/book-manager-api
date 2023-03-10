@@ -1,5 +1,7 @@
 package com.techreturners.bookmanager.service;
 
+import com.techreturners.bookmanager.exception.DuplicateResourceException;
+import com.techreturners.bookmanager.exception.ResourceNotFoundException;
 import com.techreturners.bookmanager.model.Book;
 import com.techreturners.bookmanager.repository.BookManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Service
 public class BookManagerServiceImpl implements BookManagerService {
+    private final String ERROR_DUPLICATE_BOOK_ID = "Create book failed. Book with the same id: [%s] alreay exists!";
+    private final String ERROR_BOOK_NOT_EXISTS = "Book with book id: [%s] does not exist!";
 
     @Autowired
     BookManagerRepository bookManagerRepository;
@@ -23,6 +27,9 @@ public class BookManagerServiceImpl implements BookManagerService {
 
     @Override
     public Book insertBook(Book book) {
+        boolean exist = bookManagerRepository.existsById(book.getId());
+        if (exist)
+            throw new DuplicateResourceException(ERROR_DUPLICATE_BOOK_ID.formatted(book.getId()));
         return bookManagerRepository.save(book);
     }
 
@@ -46,6 +53,9 @@ public class BookManagerServiceImpl implements BookManagerService {
 
     @Override
     public void deleteBookById(Long id) {
+        boolean exist = bookManagerRepository.existsById(id);
+        if (!exist)
+            throw new ResourceNotFoundException(ERROR_BOOK_NOT_EXISTS.formatted(id));
         bookManagerRepository.deleteById(id);
     }
 
