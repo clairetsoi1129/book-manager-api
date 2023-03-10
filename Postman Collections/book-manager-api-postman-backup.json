@@ -198,12 +198,12 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "{{base_url}}/book/2"
+				"url": "{{base_url}}/book/1"
 			},
 			"response": []
 		},
 		{
-			"name": "deleteBookById_IdNotExist",
+			"name": "deleteBookByIdFail_IdNotExist",
 			"event": [
 				{
 					"listen": "test",
