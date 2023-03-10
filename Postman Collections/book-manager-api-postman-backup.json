@@ -33,6 +33,39 @@
 			"response": []
 		},
 		{
+			"name": "getBookByIdFail_NotExist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "651816f5-50e9-483f-bf41-79963f25c19a",
+						"exec": [
+							"pm.test(\"Book not found with status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Check error return and message is 'Book with book id:[?] does not exist!'\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"Not Found\");",
+							"    pm.expect(jsonData.message).to.include(\"Book with book id:\");",
+							"    pm.expect(jsonData.message).to.include(\"does not exist!\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "dd4b5e07-19f7-4f12-866c-df7e3436e1ee",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/book/5"
+			},
+			"response": []
+		},
+		{
 			"name": "getBookById",
 			"event": [
 				{
@@ -48,14 +81,14 @@
 					}
 				}
 			],
-			"id": "dd4b5e07-19f7-4f12-866c-df7e3436e1ee",
+			"id": "25b8a13e-fd4f-46a3-8c3c-680076ca0c27",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "{{base_url}}/book/2"
+				"url": "{{base_url}}/book/1"
 			},
 			"response": []
 		},
@@ -96,20 +129,21 @@
 			"response": []
 		},
 		{
-			"name": "createBookFailDueToSameId",
+			"name": "createBookFail_DuplicateId",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"id": "e8a338bd-a212-4b66-92fa-70ff7d59fc5d",
 						"exec": [
-							"pm.test(\"Create Book failed with Status code is 500\", function () {",
-							"    pm.response.to.have.status(500);",
+							"pm.test(\"Create Book failed with Status code is 409\", function () {",
+							"    pm.response.to.have.status(409);",
 							"});",
-							"pm.test(\"Check error return and message is 'Create book failed. Book with the same id alreay exists!!'\", function () {",
+							"pm.test(\"Check error return and message is 'Create book failed. Book with the same id:[?] alreay exists!!'\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");",
-							"    pm.expect(jsonData.message).to.eql(\"Create book failed. Book with the same id alreay exists!\");",
+							"    pm.expect(jsonData.error).to.eql(\"Conflict\");",
+							"    pm.expect(jsonData.message).to.include(\"Create book failed. Book with the same id:\");",
+							"    pm.expect(jsonData.message).to.include(\"alreay exists!\");",
 							"",
 							"});"
 						],
