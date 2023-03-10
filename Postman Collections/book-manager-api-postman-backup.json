@@ -141,7 +141,7 @@
 							"});",
 							"pm.test(\"Check error return and message is 'Create book failed. Book with the same id:[?] alreay exists!!'\", function () {",
 							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");",
+							"    pm.expect(jsonData.error).to.eql(\"Conflict\");",
 							"    pm.expect(jsonData.message).to.eql(\"Create book failed. Book with the same id alreay exists!\");",
 							"",
 							"});"
